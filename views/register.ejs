@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<div class="container login">
+  
+  <div class="box">
+    <form action="/register" method="post">
+        <h2>Sign Up</h2>
+        <div class="inputBox">
+            <input type="text" required name="username">
+            <span>Username</span>
+            <i></i>
+        </div>
+        <!-- <div class="inputBox">
+          <input type="email" required name="email">
+          <span>Email</span>
+          <i></i>
+      </div> -->
+        <div class="inputBox">
+            <input type="password" required name="password">
+            <span>Enter Password</span>
+            <i></i>
+        </div>
+        <input type="submit" value="Register">
+        <div class="links">
+          <a href="/forgot">_____</a>
+          <a href="/login">Sign In</a>
+      </div>
+    </form>
+    
+  </div>
+</div>
+
+<div class="note">
+  <p>For security reasons, password recovery is not available.
+    <br> Please create a strong and memorable password.</p>
+</div>
+<%- include('partials/footer') %>

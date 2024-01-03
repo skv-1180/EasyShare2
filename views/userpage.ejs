@@ -1,0 +1,46 @@
+<%- include("partials/userHeader") -%>
+
+<body>
+  <div class="container-fluid">
+    <div class="container-fluid">
+      <div class="row code-row">
+          <div class="col-lg-8 left-panel">
+              <div class="editor">
+                  <textarea id="sentCode">//Enter your code here...</textarea>
+              </div>
+              <div>
+                  <button type="button" class="dark-button" onclick="copyCode(sentCodeEditor, this)">Copy</button>
+                  <button type="button" class="dark-button" onclick="openShareModal()">Share</button>
+                  <div id="shareModal" class="model">
+                      <input type="text" class="dark-button" id="shareHandle" placeholder="Handle">
+                      <button type="button"  class="dark-button" onclick="submitShareHandle(this)">Submit</button>
+                  </div>
+              </div>
+          </div>
+        <div class="col-lg-4">
+            <div class="side-panel">
+              <div class="contact-list">
+                <% for (var i = 0; i < receivedCode.length; i++) { %>
+                  <div class="contact" onclick="openChat('<%= encodeURIComponent(JSON.stringify(receivedCode[i])) %>')">
+                    <div class="left-info">
+                      <label for="User"><%= receivedCode[i].senderUsername %></label>
+                    </div>
+                    <div class="right-info">
+                      <label for="time"><%= new Date(receivedCode[i].timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true, day: 'numeric', month: 'short' }) %></label>
+                    </div>
+                    <button class="delete-icon" onclick="handleDeleteClick('<%= i %>','<%= username %>')">&#10006;</button>
+                  </div>
+                  <hr>
+                <% } %>
+                
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+<script src="/script.js"></script>
+
+<%- include("partials/footer") -%>
+
+
+

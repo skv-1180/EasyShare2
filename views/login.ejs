@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<div class="container login">
+  
+  <div class="box">
+    <form action="/login" method="post" autocomplete="off">
+        <h2>Sign In</h2>
+        <div class="inputBox form-group">
+            <input type="text" required name="username" autocomplete="nope">
+            <span>Username</span>
+            <i></i>
+        </div>
+        <div class="inputBox form-group">
+            <input type="password" required name="password" autocomplete="off">
+            <span>Enter Password</span>
+            <i></i>
+        </div>
+        <input type="submit" value="Login">
+        <div class="links">
+            <a href="/forgot">_____</a>
+            <a href="/register">Sign Up</a>
+        </div>
+    </form>
+</div>
+  </div>
+
+<%- include('partials/footer') %>

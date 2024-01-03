@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/logo/easy-share-favicon-white.png">
+  <title>EASY SHARE</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-image: linear-gradient(to right, #8360c3, #2ebf91);      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .overlay {
+      z-index: -10;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75); /* Adjust the alpha (fourth parameter) for darkness */
+    }
+
+    #logo {
+      width: 200px; /* Adjust the logo size */
+      height: auto;
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      margin-left: 50px;
+      cursor: pointer;
+    }
+
+    .content{
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      color: #fff;
+    }
+    .content h1{
+      font-size: 60px;
+      margin-top: 80px;
+      margin-bottom: 20px;
+    }
+    .content p{
+        font-size: 20px;
+      margin: 20px auto;
+      font-weight: 100;
+      line-height: 25px;
+    }
+    a.button {
+      display: inline-block;
+      width: 200px;
+      padding: 15px 0;
+      text-align: center;
+      margin: 20px 10px;
+      border-radius: 25px;
+      font-weight: bold;
+      border: 2px solid #009688;
+      color: #fff;
+      cursor: pointer;
+      background-color: rgba(0, 150, 136, 0.1);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none; /* Remove underline for links */
+    }
+    a.button span{
+      background: #009688;
+      height: 100%;
+      width: 0;
+      border-radius: 25px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      z-index: -1;
+      transition: 0.5s ;
+    }
+    a.button:hover span{
+      width: 100%;
+    }
+    a.button:hover{
+      border: none;
+    }
+    a.button:active span{
+      width: 100%;
+      background: #d9138a;
+    }
+    a.button:active{
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <img id="logo" src="/logo/logo.png" alt="Logo">
+  <div class="content">
+    
+    <p class="message">Dear User,</p>
+    <p class="message">We regret to inform you that the recovery of forgotten passwords is not possible in our system.</p>
+    <p class="message">In light of this, we recommend the following:</p>
+    <p class="message">Create a new user ID to continue accessing our services.</p>
+    <p class="message">Take a moment to recall your password, as it is crucial for your account security.</p>
+    <div>
+      <a href="/login" class="button"><span></span>LOG IN</a>
+      <a href="/register" class="button"><span></span>SIGN UP</a>
+    </div>
+  </div>
+</body>
+</html>
