@@ -56,7 +56,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());//create cookies
 passport.deserializeUser(User.deserializeUser());//destroy cookies
 
-
+var currentUser = "NULL";
 app.get("/", function(req,res){
   res.render("index"); 
 });
@@ -79,8 +79,8 @@ app.get("/logout", function(req,res){
 app.get("/user/:currentUser", function(req,res){
   // console.log(req.user);
   // console.log(req.user);
-  if(req.isAuthenticated() && req.user.username === req.params.currentUser){
-    res.render("userpage",{username: req.user.username,receivedCode:req.user.receivedCode});
+  if(req.isAuthenticated() && currentUser === req.params.currentUser){
+    res.render("userpage",{username: currentUser,receivedCode:req.user.receivedCode});
     // res.render("secrets");
   }else{
     res.redirect("/login");
@@ -110,40 +110,13 @@ app.post("/deleteCode/:currentUser", async function(req, res) {
   }
 });
 
-// app.post("/user/:currentUser", async function(req, res) {
-//   // console.log(req.body);
-//   const username = req.body.handle;
-//   const receivedCode = req.body.code;
-//   const senderUsername = req.user.username;
-//   try {
-//     const updatedUser = await User.findOneAndUpdate(
-//       { username: username },
-//       {
-//         $push: {
-//           receivedCode: {
-//             senderUsername: senderUsername,
-//             code: receivedCode,
-//           },
-//         },
-//       },
-//       { new: true } // To return the updated document
-//     );
-//       // console.log(updatedUser);
-//     if (updatedUser) {
-//       return res.status(200).json({ message: 'User updated successfully', user: updatedUser });
-//     } else {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-//   } catch (error) {
-//     console.error('Error updating user:', error);
-//     return res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// });
+
 
 app.post("/user/:currentUser", async function(req, res) {
   const username = req.body.handle;
   const receivedCode = req.body.code;
-  const senderUsername = req.user.username;
+  // const senderUsername = req.user.username;
+  const senderUsername = currentUser;
 
   try {
     const updatedUser = await User.findOneAndUpdate(
@@ -195,7 +168,8 @@ app.post("/login", function(req,res){
       passport.authenticate("local", {
         failureRedirect: "/login", // Redirect to /login on failure
       })(req, res, function () {
-        const currentUser = req.body.username;
+        // const currentUser = req.body.username;
+        currentUser = req.body.username;
         res.redirect("/user/" + currentUser);
         // You can add more logic here if needed
       });
@@ -211,7 +185,8 @@ app.post("/register", function(req, res){
         res.redirect("/register");
     }else{
         passport.authenticate("local")(req,res,function(){
-          const currentUser = req.body.username;
+          // const currentUser = req.body.username;
+          currentUser = req.body.username;
           res.redirect("/user/"+currentUser);
         })
     }
