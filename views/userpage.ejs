@@ -21,9 +21,12 @@
             <div class="side-panel">
               <div class="contact-list">
                 <% for (var i = 0; i < receivedCode.length; i++) { %>
-                  <div class="contact" onclick="openChat('<%= encodeURIComponent(JSON.stringify(receivedCode[i])) %>')">
+                  <div class="contact" onclick="openChat('<%= i %>')">
                     <div class="left-info">
                       <label for="User"><%= receivedCode[i].senderUsername %></label>
+                    </div>
+                    <div style="display: none;">
+                      <textarea id="<%= i %>"><%= receivedCode[i].code %></textarea>
                     </div>
                     <div class="right-info">
                       <label for="time"><%= new Date(receivedCode[i].timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true, day: 'numeric', month: 'short' }) %></label>

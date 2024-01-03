@@ -32,11 +32,12 @@ function copyCode(codeMirrorInstance, button) {
         button.innerText = originalText;
     }, 500);
 }
+function openChat(index) {
+    var textarea = document.getElementById(index);
+  textarea.select();
 
-function openChat(encodedCode) {
-    const decodedCode = decodeURIComponent(encodedCode);
-    const codeObject = JSON.parse(decodedCode);
-    sentCodeEditor.setValue(codeObject.code);
+  // Set the value of sentCodeEditor to the selected text
+  sentCodeEditor.setValue(textarea.value);
 }
 
 
