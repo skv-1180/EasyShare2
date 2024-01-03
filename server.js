@@ -72,6 +72,7 @@ app.get("/register", function(req,res){
 app.get("/logout", function(req,res){
   req.logout(function(err) {//passport function logout
       if (err) { return next(err); }
+      currentUser = "NULL";
       res.redirect('/');
   });
 });
