@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
       code: String,
       timestamp: {
         type: Date,
-        default: Date.now,
+        default: () => new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }),
       },
     },
   ],
