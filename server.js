@@ -79,7 +79,7 @@ app.get("/logout", function(req,res){
 
 app.get("/user/:currentUser", function(req,res){
   // console.log(req.user);
-  // console.log(req.user);
+  console.log(req.user);
   if(req.isAuthenticated() && currentUser === req.params.currentUser){
     res.render("userpage",{username: currentUser,receivedCode:req.user.receivedCode});
     // res.render("secrets");
