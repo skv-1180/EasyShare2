@@ -76,7 +76,7 @@ app.get("/logout", function(req,res){
 });
 
 app.get("/user/:currentUser", function(req,res){
-  console.log(req.user.username);
+  // console.log(req.user.username);
   if(req.isAuthenticated()){
     res.render("userpage",{username: req.user.username,receivedCode:req.user.receivedCode});
     // res.render("secrets");
@@ -111,42 +111,46 @@ app.post("/deleteCode/:currentUser", async function(req, res) {
 
 
 app.post("/user/:currentUser", async function(req, res) {
-  const username = req.body.handle;
-  const receivedCode = req.body.code;
-  const senderUsername = req.user.username;
-  // const senderUsername = currentUser;
+  if(req.isAuthenticated()){
+    const username = req.body.handle;
+    const receivedCode = req.body.code;
+    const senderUsername = req.user.username;
+    // const senderUsername = currentUser;
 
-  try {
-    const updatedUser = await User.findOneAndUpdate(
-      { username: username },
-      {
-        $push: {
-          receivedCode: {
-            senderUsername: senderUsername,
-            code: receivedCode,
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { username: username },
+        {
+          $push: {
+            receivedCode: {
+              senderUsername: senderUsername,
+              code: receivedCode,
+            },
           },
         },
-      },
-      { new: true } // To return the updated document
-    );
-    var limit = 20;
-    if (updatedUser) {
-      // Check if the length of receivedCode array exceeds limit
-      if (updatedUser.receivedCode.length > limit) {
-        // If yes, remove the oldest messages to keep the length at limit
-        updatedUser.receivedCode.splice(0, updatedUser.receivedCode.length - limit);
+        { new: true } // To return the updated document
+      );
+      var limit = 20;
+      if (updatedUser) {
+        // Check if the length of receivedCode array exceeds limit
+        if (updatedUser.receivedCode.length > limit) {
+          // If yes, remove the oldest messages to keep the length at limit
+          updatedUser.receivedCode.splice(0, updatedUser.receivedCode.length - limit);
+        }
+
+        // Save the updated user document
+        await updatedUser.save();
+
+        return res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+      } else {
+        return res.status(404).json({ message: 'User not found' });
       }
-
-      // Save the updated user document
-      await updatedUser.save();
-
-      return res.status(200).json({ message: 'User updated successfully', user: updatedUser });
-    } else {
-      return res.status(404).json({ message: 'User not found' });
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
-  } catch (error) {
-    console.error('Error updating user:', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+  }else{
+    res.redirect("/login");
   }
 });
 
