@@ -56,7 +56,6 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());//create cookies
 passport.deserializeUser(User.deserializeUser());//destroy cookies
 
-var currentUser = "NULL";
 app.get("/", function(req,res){
   res.render("index"); 
 });
@@ -72,16 +71,14 @@ app.get("/register", function(req,res){
 app.get("/logout", function(req,res){
   req.logout(function(err) {//passport function logout
       if (err) { return next(err); }
-      currentUser = "NULL";
       res.redirect('/');
   });
 });
 
 app.get("/user/:currentUser", function(req,res){
-  // console.log(req.user);
-  console.log(req.user);
-  if(req.isAuthenticated() && currentUser === req.params.currentUser){
-    res.render("userpage",{username: currentUser,receivedCode:req.user.receivedCode});
+  console.log(req.user.username);
+  if(req.isAuthenticated()){
+    res.render("userpage",{username: req.user.username,receivedCode:req.user.receivedCode});
     // res.render("secrets");
   }else{
     res.redirect("/login");
@@ -116,8 +113,8 @@ app.post("/deleteCode/:currentUser", async function(req, res) {
 app.post("/user/:currentUser", async function(req, res) {
   const username = req.body.handle;
   const receivedCode = req.body.code;
-  // const senderUsername = req.user.username;
-  const senderUsername = currentUser;
+  const senderUsername = req.user.username;
+  // const senderUsername = currentUser;
 
   try {
     const updatedUser = await User.findOneAndUpdate(
@@ -169,8 +166,7 @@ app.post("/login", function(req,res){
       passport.authenticate("local", {
         failureRedirect: "/login", // Redirect to /login on failure
       })(req, res, function () {
-        // const currentUser = req.body.username;
-        currentUser = req.body.username;
+        const currentUser = req.body.username;
         res.redirect("/user/" + currentUser);
         // You can add more logic here if needed
       });
@@ -186,8 +182,7 @@ app.post("/register", function(req, res){
         res.redirect("/register");
     }else{
         passport.authenticate("local")(req,res,function(){
-          // const currentUser = req.body.username;
-          currentUser = req.body.username;
+          const currentUser = req.body.username;
           res.redirect("/user/"+currentUser);
         })
     }
